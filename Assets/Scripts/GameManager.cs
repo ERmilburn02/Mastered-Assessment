@@ -56,8 +56,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<AssetReferenceGameObject> m_Cars = new List<AssetReferenceGameObject>();
 
     [Header("Cameras")]
-    [SerializeField] private CinemachineVirtualCamera m_defaultCam;
-    [SerializeField] private CinemachineVirtualCamera m_FreeCam;
+    [SerializeField] private CinemachineVirtualCamera m_defaultCam = null;
+    [SerializeField] private CinemachineVirtualCamera m_FreeCam = null;
+
+    [Header("Prompt")]
+    [SerializeField] private GameObject m_PromptPanel = null;
+    [SerializeField] private TMP_Text m_PromptText = null;
 
     private void Start()
     {
@@ -99,6 +103,8 @@ public class GameManager : MonoBehaviour
     public void OnHideUIButtonClicked()
     {
         HideUI(true);
+
+        ShowPrompt("Press ESC to show UI");
     }
 
     public void OnCancelButtonClicked()
@@ -129,6 +135,11 @@ public class GameManager : MonoBehaviour
     {
         m_ExtraHeatedSeats = value;
         UpdateText();
+    }
+
+    public void OnPromptOKButtonClicked()
+    {
+        m_PromptPanel.SetActive(false);
     }
 
     private void UpdateText()
@@ -222,5 +233,12 @@ public class GameManager : MonoBehaviour
             }
         }
 
+    }
+
+    private void ShowPrompt(string message, float size = 64)
+    {
+        m_PromptText.text = message;
+        m_PromptText.fontSize = size;
+        m_PromptPanel.SetActive(true);
     }
 }
