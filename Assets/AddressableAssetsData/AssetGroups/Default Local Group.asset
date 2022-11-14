@@ -25,10 +25,6 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/Crawler.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 7b6cabcedd79f394d855df072d75f22a
-    m_Address: Assets/Audio/background.wav
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: abfb13629a7caf14caf27d7962a44d58, type: 2}
   m_SchemaSet:

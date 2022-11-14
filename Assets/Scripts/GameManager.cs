@@ -6,9 +6,21 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using TMPro;
+using Cinemachine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    private enum cam
+    {
+        defaultCam = 0,
+        freeCam = 1
+    }
+
+    private GameManager.cam m_CurrentCam;
+
+    private bool m_HideUI = false;
+
     private int m_ColorR = 0;
     private int m_ColorG = 0;
     private int m_ColorB = 0;
@@ -42,10 +54,25 @@ public class GameManager : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private List<AssetReferenceGameObject> m_Cars = new List<AssetReferenceGameObject>();
-    
+
+    [Header("Cameras")]
+    [SerializeField] private CinemachineVirtualCamera m_defaultCam;
+    [SerializeField] private CinemachineVirtualCamera m_FreeCam;
+
     private void Start()
     {
         UpdateText();
+    }
+
+    private void Update()
+    {
+        if (m_HideUI)
+        {
+            if (Keyboard.current.escapeKey.isPressed)
+            {
+                HideUI(false);
+            }
+        }
     }
 
     public void OnColorRedUpdate(float newValue)
@@ -69,9 +96,9 @@ public class GameManager : MonoBehaviour
         UpdateText();
     }
 
-    public void OnBuyButtonClicked()
+    public void OnHideUIButtonClicked()
     {
-
+        HideUI(true);
     }
 
     public void OnCancelButtonClicked()
@@ -172,5 +199,28 @@ public class GameManager : MonoBehaviour
         m_LoadingScreen.SetActive(false);
         m_CarPlatform.SetActive(true);
         m_ConfigurePanel.SetActive(true);
+    }
+
+    private void HideUI(bool value)
+    {
+        m_HideUI = value;
+
+        if (value)
+        {
+            m_ConfigurePanel.SetActive(false);
+            m_ModelPanel.SetActive(false);
+        }
+        else
+        {
+            if (m_CarPlatform.activeSelf)
+            {
+                m_ConfigurePanel.SetActive(true);
+            }
+            else
+            {
+                m_ModelPanel.SetActive(true);
+            }
+        }
+
     }
 }
